@@ -1,0 +1,444 @@
+@import url("https://fonts.googleapis.com/css2?family=Rubik:ital,wght@0,300..900;1,300..900&display=swap");
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html,
+body {
+  min-height: 100vh;
+}
+
+body {
+  position: relative;
+  overflow-x: hidden;
+  font-family: "Rubik", sans-serif;
+  background-color: rgb(16, 15, 20);
+  color: #dbd3d3;
+}
+
+/* ---------- SHARED UTILITIES ---------- */
+.card-bg {
+  background-color: #1b1b1d;
+  border-radius: 16px;
+  color: #dbd3d3;
+}
+
+.flex-col-center {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.hide-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+
+.loader {
+  width: 48px;
+  height: 48px;
+  display: block;
+  margin: 20px auto;
+  box-sizing: border-box;
+  position: relative;
+}
+
+.loader::after {
+  content: "";
+  width: 48px;
+  height: 48px;
+  left: 0;
+  bottom: 0;
+  position: absolute;
+  border-radius: 50% 50% 0;
+  border: 15px solid red;
+  transform: rotate(45deg) translate(0, 0);
+  box-sizing: border-box;
+  animation: animMarker 0.4s ease-in-out infinite alternate;
+}
+
+.loader::before {
+  content: "";
+  box-sizing: border-box;
+  position: absolute;
+  left: 0;
+  right: 0;
+  margin: auto;
+  top: 150%;
+  width: 24px;
+  height: 4px;
+  border-radius: 50%;
+  background: rgba(0, 0, 0, 0.2);
+  animation: animShadow 0.4s ease-in-out infinite alternate;
+}
+
+@keyframes animMarker {
+  0% {
+    transform: rotate(45deg) translate(5px, 5px);
+  }
+  100% {
+    transform: rotate(45deg) translate(-5px, -5px);
+  }
+}
+@keyframes animShadow {
+  0% {
+    transform: scale(0.5);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+/* ---------- DASHBOARD LAYOUT ---------- */
+.dashboard-layout {
+  min-height: 100vh;
+  display: grid;
+  grid-template-columns: clamp(16rem, 20vw, 22rem) minmax(0, 1fr);
+  grid-template-rows: auto auto 1fr;
+  grid-template-areas: "left-pannel header" "left-pannel forecast" "left-pannel overview";
+  gap: 24px;
+  padding: clamp(16px, 4vw, 48px);
+  padding-inline: clamp(16px, 8vw, 160px);
+}
+
+/* ---------- GRID AREAS ---------- */
+.left-pannel {
+  grid-area: left-pannel;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  gap: 1em;
+}
+
+.header {
+  grid-area: header;
+}
+
+.forecast {
+  grid-area: forecast;
+  overflow: hidden;
+}
+
+.overview {
+  grid-area: overview;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+/* ---------- OVERVIEW ROWS ---------- */
+.overview .row1,
+.overview .row2 {
+  display: flex;
+  gap: 25px;
+  flex-wrap: wrap;
+}
+
+.overview .row1 > *,
+.overview .row2 > * {
+  flex: 1 1 220px;
+}
+
+/* ---------- OVERVIEW CARDS ---------- */
+.wind-card,
+.uv-index-card,
+.sun-info,
+.humidity,
+.visibility,
+.feels-like {
+  padding: 16px;
+  border-radius: 16px;
+  background-color: #1b1b1d;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.humidity,
+.visibility,
+.feels-like {
+  padding: 0;
+}
+.humidity p,
+.visibility p,
+.feels-like p {
+  padding-top: 16px;
+}
+
+.wind-card {
+  white-space: nowrap;
+}
+
+.wind-card img,
+.uv-index-card img {
+  max-height: 160px;
+  width: 100%;
+  -o-object-fit: cover;
+     object-fit: cover;
+  border-radius: 16px;
+}
+
+.wind-speed-info {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+}
+
+.sunrise,
+.sunset {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+}
+
+.sunrise img,
+.sunset img {
+  max-height: 90px;
+  width: 25%;
+  -o-object-fit: contain;
+     object-fit: contain;
+  border-radius: 16px;
+}
+
+.sunrise p,
+.sunset p {
+  margin: 0;
+  word-break: break-word;
+}
+
+.humidity h3,
+.visibility h3,
+.feels-like h3 {
+  margin-bottom: 15px;
+  font-weight: 400;
+}
+.humidity h3 span,
+.visibility h3 span,
+.feels-like h3 span {
+  font-size: 0.9rem;
+}
+
+/* ---------- HEADER ---------- */
+.header-info {
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 16px;
+  padding: 16px;
+}
+.header-info .month span {
+  font-size: 1.15rem;
+}
+.header-info img {
+  max-height: 5%;
+  width: 4%;
+  -o-object-fit: contain;
+     object-fit: contain;
+}
+
+/* ---------- TEMPERATURE ---------- */
+.temp-info {
+  padding: 24px;
+  border-bottom: 0.5px solid #8c8c90;
+}
+
+.temp-info h1,
+h2 {
+  font-weight: 400;
+}
+
+.temp-info p {
+  margin: 5px 0;
+  font-weight: 350;
+}
+
+.temp-info img {
+  max-width: 120px;
+  width: 30%;
+}
+
+.weather-desc {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+}
+
+.weather-desc h2 {
+  margin-top: 10px;
+  white-space: nowrap;
+}
+
+.weather-desc p {
+  margin: 0;
+  max-width: 50%;
+  text-align: right;
+  text-transform: capitalize;
+}
+
+/* ---------- THOUGHT ---------- */
+.thought {
+  flex: 1;
+  background-color: #1b1b1d;
+  border-radius: 16px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 2.5em;
+  padding: 28px;
+  overflow-wrap: break-word;
+  word-break: break-word;
+  text-align: start;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+/* ---------- DAILY / HOURLY ---------- */
+.daily-info {
+  border-radius: 16px;
+  background-color: #1b1b1d;
+}
+
+.daily-data {
+  padding: 10px;
+  display: flex;
+  gap: 10px;
+  overflow-x: auto;
+}
+
+.daily-data::-webkit-scrollbar {
+  display: none;
+}
+
+.daily-data .card {
+  flex: 1 1 110px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+  border-radius: 8px;
+  background-color: #1b1b1d;
+  padding: 8px;
+}
+
+.daily-data .card img {
+  width: 60%;
+}
+
+/*-------------Search -Bar-------------*/
+.search-bar {
+  display: flex;
+  gap: 10px;
+  flex-grow: 1;
+  max-width: 400px;
+  margin: 0 28px;
+}
+.search-bar .inp,
+.search-bar .search-btn {
+  padding: 8px 10px;
+  border-radius: 16px;
+  background-color: #1b1b1d;
+  border: none;
+  outline: none;
+  color: #dbd3d3;
+  flex-grow: 1;
+}
+
+/* ---------- MEDIA QUERIES ---------- */
+@media (min-width: 1201px) {
+  .overview,
+  .row1,
+  .row2,
+  .row1 > *,
+  .row2 > * {
+    height: 100%;
+  }
+}
+@media (max-width: 1200px) {
+  .dashboard-layout {
+    grid-template-columns: 1fr;
+    grid-template-areas: "header" "left-pannel" "forecast" "overview";
+    padding-inline: clamp(16px, 5vw, 32px);
+  }
+  .header-info {
+    flex-direction: row;
+    justify-content: space-between;
+  }
+  .temp-info {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 16px;
+  }
+  .weather-desc {
+    flex-direction: column;
+    align-items: flex-start;
+    text-align: left;
+  }
+}
+@media (max-width: 768px) {
+  .dashboard-layout {
+    gap: 16px;
+    padding: 16px;
+  }
+  .daily-data {
+    gap: 8px;
+  }
+  .daily-data .card {
+    flex: 0 0 90px;
+  }
+  .wind-card img,
+  .uv-index-card img {
+    max-height: 160px;
+    width: 100%;
+    -o-object-fit: contain;
+       object-fit: contain;
+    border-radius: 16px;
+  }
+  .row1,
+  .row2 {
+    flex-direction: column;
+  }
+  .header-info {
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    padding: 12px;
+  }
+  .header-info img {
+    display: block;
+  }
+  .temp-info {
+    flex-direction: row;
+  }
+  .temp-info img {
+    width: 20%;
+    max-width: 100px;
+  }
+  .humidity p,
+  .visibility p,
+  .feels-like p {
+    font-size: 1.5rem;
+  }
+  .humidity h3,
+  .visibility h3,
+  .feels-like h3 {
+    margin-bottom: 5rem;
+    font-weight: 400;
+    font-size: 3.5rem;
+  }
+  .humidity h3 span,
+  .visibility h3 span,
+  .feels-like h3 span {
+    font-size: 1.5rem;
+  }
+}
+@media (max-width: 567px) {
+  .header .header-info .user-profile {
+    display: none;
+  }
+}/*# sourceMappingURL=index.css.map */
